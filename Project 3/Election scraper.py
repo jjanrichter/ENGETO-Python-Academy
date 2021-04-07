@@ -1,12 +1,15 @@
+# Election Scraper - JR
 
 import time
+import csv
 import requests
 from bs4 import BeautifulSoup as bs
-import csv
+
 
 start = time.time()
 
-def MUNI_DATA(url):
+
+def muni_data_f(url):
     source = requests.get(url)
     soup = bs(source.text, 'html.parser')
 
@@ -19,9 +22,9 @@ def MUNI_DATA(url):
     return muni_data_info
 
 
-def POLI_PARTIES(url):
-    POLI_URL = url
-    source = requests.get(POLI_URL)
+def poli_parties(url):
+    poli_url = url
+    source = requests.get(poli_url)
     soup = bs(source.text, 'html.parser')
     poli_names_list = []
     poli_names_count = []
@@ -48,9 +51,9 @@ def POLI_PARTIES(url):
     return poli_dict
 
 
-def HLAVICKA():
-    POLI_URL = 'https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=1'
-    source = requests.get(POLI_URL)
+def hlavicka():
+    poli_url = 'https://volby.cz/pls/ps2017nss/ps311?xjazyk=CZ&xkraj=1'
+    source = requests.get(poli_url)
     soup = bs(source.text, 'html.parser')
 
     poli_names_list = []
@@ -91,15 +94,15 @@ for table in tables:
         muni_data = {"code": "", "name": "", "registered": 0,
                      "envelopes": 0, "valid": 0}
 
-        muni_data.update(HLAVICKA())
+        muni_data.update(hlavicka())
 
         muni_url = f"{URL2}{row.find('a')['href']}"
 
         muni_data["code"] = row.find("a").text
         muni_data["name"] = row.a.findNext("td").text
 
-        muni_data.update(POLI_PARTIES(muni_url))
-        muni_data.update(MUNI_DATA(muni_url))
+        muni_data.update(poli_parties(muni_url))
+        muni_data.update(muni_data_f(muni_url))
 
         muni_list.append(muni_data)
 
@@ -115,5 +118,3 @@ for table in tables:
 
 elapsed = time.time() - start
 print(f"ELAPSED TIME: {elapsed}")
-
-
