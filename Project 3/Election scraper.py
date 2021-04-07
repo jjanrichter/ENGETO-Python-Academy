@@ -119,3 +119,4 @@ for table in tables:
 elapsed = time.time() - start
 print(f"ELAPSED TIME: {elapsed}")
 
+
