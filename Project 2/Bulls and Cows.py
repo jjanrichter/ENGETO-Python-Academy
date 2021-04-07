@@ -1,4 +1,3 @@
-
 # Bulls & Cows - JR
 
 def main() -> None:
