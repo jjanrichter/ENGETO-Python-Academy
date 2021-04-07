@@ -1,5 +1,4 @@
 
-
 # Bulls & Cows - JR
 
 def main() -> None:
@@ -125,5 +124,3 @@ def game():
 
 
 main()
-
-
